@@ -1,0 +1,69 @@
+<!DOCTYPE <html>
+<html >
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    	
+        <title>Todo List</title>
+    </head>
+    <body>
+        <style> 
+            .item{
+                font-size: 13pt;
+            }
+           
+            
+
+
+        </style>
+
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo center">Issues</a>
+            </div>
+        </nav>
+        
+        
+            <ul id = "content" class="collection"></ul>
+        
+        <script>
+            const electron = require('electron');
+            const {ipcRenderer} = electron;
+            const content = document.querySelector('#content');
+            
+
+            ipcRenderer.on('issue:add', function(e, item){
+                addIssue(item);
+            });
+
+            ipcRenderer.on('init' , (e, item) =>{
+                content.innerHTML ="";
+                for(i of item.issues){
+                    addIssue(i);
+                }
+            });
+
+            
+            function addIssue(item){
+               let li = document.createElement('li');
+                
+                if(item.checked){
+                    li.innerHTML = '<p class = "item grey-text lighten-1" onclick = "ElementClick('+item.UUID+')" style="margin-top: 5px ;margin-bottom: 5px;">'+item.head+'</p>';
+                }else{
+                    li.innerHTML = '<p class = "item gray-text" onclick = "ElementClick('+item.UUID+')" style="margin-top: 5px; margin-bottom: 5px;">'+item.head+'</p>'; 
+                }
+                li.className = "collection-item cit";
+               content.appendChild(li);
+
+            }
+
+            function ElementClick(Id){
+                ipcRenderer.send('issue:show' , Id);
+            }
+
+
+
+        </script>
+    
+    
+    </body>
+</html>

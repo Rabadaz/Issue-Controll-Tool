@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">            
+    </head>
+    <body>
+
+        <table id = "content"></table><br/>
+        <div class = "row"> 
+            <div class="col s3 offset-s3"> <button class = "waves-effect waves-light btn" onclick="check()">Check</button></div>
+            <div class="col s3 "> <button class = "waves-effect waves-light btn" onclick="del()" >Delete</button></div>
+        </div>
+    </body>
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        const content = document.querySelector('#content');
+        let data = null;
+
+        function del(){
+            if(data !== null){
+                ipcRenderer.send("issue:del",data.UUID);
+            }
+        }
+        function check(){
+            if(data !== null){
+                ipcRenderer.send("issue:check",data.UUID);
+            }
+
+        }
+
+
+
+
+        ipcRenderer.on("issue:show",(e, item)=>{
+            data = item;
+            content.innerHTML = '<tr><td>Head: </td><td>'+item.head+' </td></tr>'+
+                                '<tr><td>Class: </td><td>'+item.cName+': '+item.lineNr+' </td></tr>'+
+                                '<tr><td>Description: </td><td>'+item.desc+' </td></tr>'+
+                                '<tr><td>Exception: </td><td>'+item.ex+' </td></tr>';
+        
+        });     
+        
+    </script>
+</html>

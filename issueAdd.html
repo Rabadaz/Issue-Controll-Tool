@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Issue</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    </head>
+    <body>
+        <style>
+            .mainForm *{
+                display: block;
+            }
+            
+        </style>
+
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo center">Add new Issue</a>
+            </div>
+        </nav>
+
+
+        <div class = "row">
+            <div class="col s3"></div>
+            <div class="col s6">
+                <form id = "addForm">
+                    <div class = "mainForm">
+                        <input type="text" class="" id = "headText" placeholder="Head" required>
+                        <input type = "text" id = "className" class ="" placeholder="class Name">
+                        <div class = "row"> <p class = "col s6">Line Nr:</p> <input class = "col s6" type="number" id="lineNr" style = "display: inline; "></div>
+                        <input type="text" id="exc" placeholder="thrown Exception" >
+                        <textarea  id="desc" cols="30" rows="10" placeholder="Description of the Issue" required></textarea><br/> 
+                        <input type = "submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+         const electron = require('electron');
+         const {ipcRenderer} = electron;
+
+        const form = document.querySelector('#addForm');
+
+
+
+        form.addEventListener('submit',function(e){
+            e.preventDefault();
+            let head = document.querySelector('#headText').value;
+            let desc = document.querySelector('#desc').value;
+            let cName = document.querySelector('#className').value;
+            let lineNr = document.querySelector('#lineNr').value;
+            let ex = document.querySelector('#exc').value;
+            
+            ipcRenderer.send('issue:add',{
+                head: head,
+                desc: desc,
+                cName: cName,
+                lineNr:lineNr,
+                ex: ex,
+                checked: false
+            });
+
+
+
+
+        })
+    
+    </script>
+</html>

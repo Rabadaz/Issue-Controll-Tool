@@ -1,0 +1,19 @@
+{
+  "name": "todotool",
+  "version": "1.0.0",
+  "description": "A tool for todoLists",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Rabadaz",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.8.4"
+  },
+  "devDependencies": {
+ "electron": "^1.4.3",
+ "electron-packager": "^8.1.0"
+ }
+}
+
